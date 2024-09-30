@@ -11,7 +11,7 @@ class User {
   @Column()
   password: string;
 
-  @Column({ default: 'regular' })
+  @Column({ default: 'user' })
   roles: string;
 }
 
