@@ -1,4 +1,3 @@
-// src/movie.entity.ts
 import {
   Column,
   CreateDateColumn,
@@ -9,8 +8,8 @@ import {
 
 @Entity('movie')
 export class Movie {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   title: string;

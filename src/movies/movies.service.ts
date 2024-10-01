@@ -1,9 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Movie } from './movie.entity';
 import { lastValueFrom } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
+import { CreateMovieDto } from './dto/create-movie.dto';
+import { UpdateMovieDto } from './dto/update-movie.dto';
 
 @Injectable()
 export class MoviesService {
@@ -62,6 +68,59 @@ export class MoviesService {
         : this.movieRepository.merge(existingMovie, newMovie);
       console.log('Movie: ' + movie.title);
       await this.movieRepository.save(movie);
+    }
+  }
+
+  findAll(): Promise<Movie[]> {
+    return this.movieRepository.find();
+  }
+
+  async findOne(id: string): Promise<Movie> {
+    const movie = await this.movieRepository.findOneBy({ id });
+    if (!movie) {
+      throw new NotFoundException(`Entity with id ${id} not found`);
+    }
+    return movie;
+  }
+
+  async create(createMovieDto: CreateMovieDto): Promise<Movie> {
+    const existingMovie = await this.movieRepository.findOne({
+      where: { url: createMovieDto.url },
+    });
+    if (existingMovie) {
+      throw new BadRequestException('Movie already exists');
+    }
+    const newMovie = this.movieRepository.create(createMovieDto);
+    return this.movieRepository.save(newMovie);
+  }
+
+  async update(id: string, updateMovieDto: UpdateMovieDto): Promise<any> {
+    const movie = await this.movieRepository.findOne({ where: { id } });
+    if (!movie) {
+      throw new NotFoundException(`Movie with id ${id} not found`);
+    }
+    try {
+      await this.movieRepository.update(id, updateMovieDto);
+      return {
+        message: 'Movie updated successfully',
+        updatedMovie: await this.movieRepository.findOne({ where: { id } }),
+      };
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async remove(id: string): Promise<any> {
+    try {
+      await this.movieRepository.delete(id);
+      return {
+        message: 'Movie deleted successfully',
+        id: id,
+      };
+    } catch (error) {
+      throw new BadRequestException(
+        'Failed to delete movie. Please try again later.',
+      );
     }
   }
 }

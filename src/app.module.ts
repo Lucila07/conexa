@@ -4,7 +4,9 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { MoviesModule } from './movies/movies.module';
 import User from "./users/user.entity";
+import { Movie } from './movies/movie.entity';
 
 @Module({
     imports: [
@@ -13,10 +15,11 @@ import User from "./users/user.entity";
         TypeOrmModule.forRoot({
             type: 'sqlite',
             database: 'database.sqlite',
-            entities: [User],
+            entities: [User, Movie],
             synchronize: true,  // Auto-syncs database schema, useful for development
         }),
-        TypeOrmModule.forFeature([User]), // Register your entity here
+        TypeOrmModule.forFeature([User]),
+        MoviesModule, // Register your entity here
     ],
     controllers: [AppController],
     providers: [AppService],
