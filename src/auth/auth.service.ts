@@ -30,7 +30,6 @@ export class AuthService {
 
   async signUp(signUpDto: SignUpDto): Promise<{ token: string }> {
     const { username, password } = signUpDto;
-    // This can be implementes with a custom validator
     const foundUser = await this.usersService.findByUsername(username);
     if (foundUser) {
       throw new UnauthorizedException('User already exists');
