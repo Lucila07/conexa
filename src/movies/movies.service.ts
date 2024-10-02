@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ConflictException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -88,7 +89,7 @@ export class MoviesService {
       where: { url: createMovieDto.url },
     });
     if (existingMovie) {
-      throw new BadRequestException('Movie already exists');
+      throw new ConflictException('Movie already exists');
     }
     const newMovie = this.movieRepository.create(createMovieDto);
     return this.movieRepository.save(newMovie);
@@ -106,11 +107,20 @@ export class MoviesService {
         updatedMovie: await this.movieRepository.findOne({ where: { id } }),
       };
     } catch (error) {
-      throw new BadRequestException(error.message);
+      if (error.code === 'SQLITE_CONSTRAINT') {
+        throw new ConflictException('Movie with the given url already exists');
+      }
+      throw new BadRequestException('Bad request');
     }
   }
 
   async remove(id: string): Promise<any> {
+    const movie = await this.movieRepository.findOne({ where: { id } });
+
+    if (!movie) {
+      throw new NotFoundException(`Movie with ID ${id} not found`);
+    }
+
     try {
       await this.movieRepository.delete(id);
       return {
