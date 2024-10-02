@@ -16,10 +16,15 @@ export class UsersService {
     });
   }
 
-  async create(username: string, hashedPassword: string): Promise<User> {
+  async create(
+    username: string,
+    hashedPassword: string,
+    roles?: string,
+  ): Promise<User> {
     const newUser = await this.usersRepository.create({
       username,
       password: hashedPassword,
+      roles,
     });
     return this.usersRepository.save(newUser);
   }

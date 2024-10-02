@@ -1,10 +1,11 @@
-import { Module } from '@nestjs/common';
+import { Module, OnModuleInit } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MoviesModule } from './movies/movies.module';
 import User from './users/user.entity';
 import { Movie } from './movies/movie.entity';
+import { UserSeederService } from './database/seeders/usersSeeder';
 
 @Module({
   imports: [
@@ -19,5 +20,12 @@ import { Movie } from './movies/movie.entity';
     TypeOrmModule.forFeature([User]),
     MoviesModule,
   ],
+  providers: [UserSeederService],
 })
-export class AppModule {}
+export class AppModule implements OnModuleInit {
+  constructor(private readonly userSeederService: UserSeederService) {}
+
+  async onModuleInit() {
+    await this.userSeederService.seed();
+  }
+}
