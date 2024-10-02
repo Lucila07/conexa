@@ -1,9 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { UsersService } from '../../users/users.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Injectable()
 export class UserSeederService {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly authService: AuthService,
+  ) {}
 
   async seed() {
     await this.createDefaultUsers();
@@ -12,13 +16,13 @@ export class UserSeederService {
   private async createDefaultUsers() {
     const adminUser = {
       username: 'admin',
-      password: 'admin123',
+      hashedPassword: await this.authService.hashPassword('admin123'),
       role: 'admin',
     };
 
     const commonUser = {
       username: 'user',
-      password: 'user123',
+      hashedPassword: await this.authService.hashPassword('user123'),
       role: 'user',
     };
 
@@ -32,14 +36,17 @@ export class UserSeederService {
     if (!adminExists) {
       await this.usersService.create(
         adminUser.username,
-        adminUser.password,
+        adminUser.hashedPassword,
         'admin',
       );
       console.log('Admin user created');
     }
 
     if (!userExists) {
-      await this.usersService.create(commonUser.username, commonUser.password);
+      await this.usersService.create(
+        commonUser.username,
+        commonUser.hashedPassword,
+      );
       console.log('Common user created');
     }
   }
