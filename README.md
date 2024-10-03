@@ -1,6 +1,8 @@
 # Movie Management API
 
-This project is a backend API built with [NestJS](https://nestjs.com/) for the Backend Nest SSR Test Coenxa challenge. It uses a SQLite database to store information about movies and users, providing endpoints for authentication, movie creation, and management with different permissions based on user roles (admin or regular user).
+This project is a backend API built with [NestJS](https://nestjs.com/) for the Backend Nest SSR Test Coenxa challenge.
+It uses a SQLite database to store information about movies and users, providing endpoints for authentication, movie
+creation, and management with different permissions based on user roles (admin or regular user).
 
 ## Features
 
@@ -42,7 +44,8 @@ This project is a backend API built with [NestJS](https://nestjs.com/) for the B
    cp .env.example .env
    ```
 
-   **Note:** If no `JWT_SECRET` is provided, the application will use a default secret key: `defaultSecretKey`. It's recommended to set a secure custom secret for production environments.
+   **Note:** If no `JWT_SECRET` is provided, the application will use a default secret key: `defaultSecretKey`. It's
+   recommended to set a secure custom secret for production environments.
 
 ## Usage
 
@@ -54,20 +57,27 @@ npm run start:dev
 
 The application will run on [http://localhost:3000](http://localhost:3000).
 
+### Health Check
+
+```bash
+GET /health
+```
+
 ### Default Users
 
 Upon application startup, the following default users are created:
 
 #### Admin:
+
 - **Username:** `admin`
 - **Password:** `admin123`
 - **Role:** `admin`
 
 #### Regular User:
+
 - **Username:** `user`
 - **Password:** `user123`
 - **Role:** `user`
-
 
 ### API Documentation
 
@@ -79,7 +89,8 @@ http://localhost:3000/api-docs
 
 ## Database
 
-The application uses an SQLite database, which will be automatically created when you first run the project. The database file will be located at the project root as `database.sqlite`.
+The application uses an SQLite database, which will be automatically created when you first run the project. The
+database file will be located at the project root as `database.sqlite`.
 
 ## Technologies Used
 

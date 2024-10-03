@@ -4,11 +4,6 @@ import { SignUpDto } from './dto/signup.dto';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LoginDto } from './dto/login.dto';
 
-interface LoginUserDto {
-  username: string;
-  password: string;
-}
-
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {

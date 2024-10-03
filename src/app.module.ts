@@ -6,6 +6,7 @@ import { MoviesModule } from './movies/movies.module';
 import User from './users/user.entity';
 import { Movie } from './movies/movie.entity';
 import { UserSeederService } from './database/seeders/usersSeeder';
+import { HealthController } from './health.controller';
 
 @Module({
   imports: [
@@ -21,6 +22,8 @@ import { UserSeederService } from './database/seeders/usersSeeder';
     MoviesModule,
   ],
   providers: [UserSeederService],
+  controllers: [HealthController],
+
 })
 export class AppModule implements OnModuleInit {
   constructor(private readonly userSeederService: UserSeederService) {}
