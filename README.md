@@ -8,9 +8,7 @@ creation, and management with different permissions based on user roles (admin o
 
 - Authentication and authorization using JWT
 - User management (sign-up and login)
-- Movie CRUD operations with role-based access:
-    - Regular users can list and view movie details
-    - Admin users can create, update, and delete movies
+- Movie CRUD operations with role-based access
 - Synchronization of movies from the public Star Wars API
 - Initial seeder that creates two users (admin and regular user) upon application startup
 - API documentation using Swagger
