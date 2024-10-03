@@ -54,6 +54,21 @@ npm run start:dev
 
 The application will run on [http://localhost:3000](http://localhost:3000).
 
+### Default Users
+
+Upon application startup, the following default users are created:
+
+#### Admin:
+- **Username:** `admin`
+- **Password:** `admin123`
+- **Role:** `admin`
+
+#### Regular User:
+- **Username:** `user`
+- **Password:** `user123`
+- **Role:** `user`
+
+
 ### API Documentation
 
 Access the API documentation at:
